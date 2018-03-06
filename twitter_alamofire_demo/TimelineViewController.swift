@@ -21,9 +21,12 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.dataSource = self
         tableView.delegate = self
         
-//        tableView.rowHeight = UITableViewAutomaticDimension
-//        tableView.estimatedRowHeight = 100
-        tableView.rowHeight = 200
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 100
+//        tableView.rowHeight = 200
+        let refreshController = UIRefreshControl()
+        refreshController.addTarget(self, action: #selector(refreshControlAction(_:)), for: UIControlEvents.valueChanged)
+        tableView.insertSubview(refreshController, at: 0)
         
         APIManager.shared.getHomeTimeLine { (tweets, error) in
             if let tweets = tweets {
@@ -60,9 +63,21 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         APIManager.shared.logout()
     }
     
+    func refreshControlAction(_ refreshControl: UIRefreshControl){
+        refreshControl.beginRefreshing()
+        APIManager.shared.getHomeTimeLine { (tweets, error) in
+            if let tweets = tweets {
+                self.tweets = tweets
+                self.tableView.reloadData()
+                refreshControl.endRefreshing()
+            } else if let error = error {
+                print("Error getting home timeline: " + error.localizedDescription)
+                refreshControl.endRefreshing()
+            }
+        }
+        
+    }
 
-    
-    
     /*
      // MARK: - Navigation
      

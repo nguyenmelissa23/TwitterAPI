@@ -10,22 +10,27 @@ import UIKit
 
 class DetailTweetViewController: UIViewController {
 
+    @IBOutlet weak var profileImage: UIImageView!
+    @IBOutlet weak var usernameLabel: UILabel!
+    @IBOutlet weak var screennameLabel: UILabel!
+    @IBOutlet weak var tweetTextLabel: UILabel!
+    @IBOutlet weak var timeStampLabel: UILabel!
+    @IBOutlet weak var retweetCount: UILabel!
+    @IBOutlet weak var favoriteCount: UILabel!
     
     
-    
-    
-//    var tweet: Tweet! {
-//        didSet {
-//            tweetTextLabel.text = tweet.text
-//            usernameLabel.text = tweet.user.name
-//            screennameLabel.text = tweet.user.screenName
-//            timeStampLabel.text = tweet.createdAtString
-//            let imageURL = URL(string: tweet.user.profileImageURL)
-//            profileImage.af_setImage(withURL: imageURL! )
-//            retweetCount.text = "\(tweet.retweetCount)"
-//            favoriteCount.text = "\(tweet.favoriteCount ?? 0)"
-//        }
-//    }
+    var tweet: Tweet! {
+        didSet {
+            tweetTextLabel.text = tweet.text
+            usernameLabel.text = tweet.user.name
+            screennameLabel.text = tweet.user.screenName
+            timeStampLabel.text = tweet.createdAtString
+            let imageURL = URL(string: tweet.user.profileImageURL)
+            profileImage.af_setImage(withURL: imageURL! )
+            retweetCount.text = "\(tweet.retweetCount) RETWEETS"
+            favoriteCount.text = "\(tweet.favoriteCount ) FAVORITES"
+        }
+    }
     
     
     override func viewDidLoad() {

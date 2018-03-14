@@ -23,7 +23,7 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 100
-//        tableView.rowHeight = 200
+        
         let refreshController = UIRefreshControl()
         refreshController.addTarget(self, action: #selector(refreshControlAction(_:)), for: UIControlEvents.valueChanged)
         tableView.insertSubview(refreshController, at: 0)
@@ -38,6 +38,25 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
     
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let cell = sender as! UITableViewCell
+        if let indexPath = tableView.indexPath(for: cell){
+            let tweet = tweets[indexPath.row]
+            let navigationVC = segue.destination as! UINavigationController
+            let detailTweetVC = navigationVC.topViewController as! DetailTweetViewController
+            print("detailTweetVC", detailTweetVC)
+            print("tweet", tweet)
+//            detailTweetVC.tweet = tweet
+            print("detailTweetVC.tweet:", detailTweetVC.tweet)
+        }
+    }
+    
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tweets.count
     }
@@ -50,14 +69,7 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     @IBAction func didTapLogout(_ sender: Any) {
         APIManager.shared.logout()
@@ -77,6 +89,8 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         }
         
     }
+    
+    
 
     /*
      // MARK: - Navigation

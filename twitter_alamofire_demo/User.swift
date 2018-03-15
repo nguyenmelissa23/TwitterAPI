@@ -12,6 +12,8 @@ class User {
     
     var name: String
     var profileImageURL: String
+    var backgroundImageURL: String
+    
     static var current: User?{
         get {
             if self.current == nil {
@@ -43,5 +45,8 @@ class User {
         screenName = dictionary["screen_name"] as!  String
         self.userDict = dictionary
         profileImageURL = dictionary["profile_image_url_https"] as! String
+        backgroundImageURL = dictionary["profile_background_image_url_https"] as! String
+        
+        
     }
 }

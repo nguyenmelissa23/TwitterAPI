@@ -40,21 +40,22 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let cell = sender as! UITableViewCell
-        if let indexPath = tableView.indexPath(for: cell){
-            let tweet = tweets[indexPath.row]
-            let navigationVC = segue.destination as! UINavigationController
-            let detailTweetVC = navigationVC.topViewController as! DetailTweetViewController
-            print("detailTweetVC", detailTweetVC)
-            print("tweet", tweet)
-//            detailTweetVC.tweet = tweet
-            print("detailTweetVC.tweet:", detailTweetVC.tweet)
+        if let cell = sender as? UITableViewCell{
+            if let indexPath = tableView.indexPath(for: cell){
+                let tweet = tweets[indexPath.row]
+                let navigationVC = segue.destination as! UINavigationController
+                let detailTweetVC = navigationVC.topViewController as! DetailTweetViewController
+                detailTweetVC.tweet = tweet
+            }
+        } else if let _ = sender as? UIBarButtonItem {
+            
         }
     }
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

@@ -33,14 +33,12 @@ class APIManager: SessionManager {
             
             // Save Oauth tokens
             self.save(credential: credential)
-            
             self.getCurrentAccount(completion: { (user, error) in
                 if let error = error {
                     failure(error)
                 } else if let user = user {
                     print("Welcome \(user.name)")
-//                    User.current = user
-                    // MARK: TODO: set User.current, so that it's persisted
+                    User.current = user
 
                     success()
                 }
@@ -52,6 +50,7 @@ class APIManager: SessionManager {
     
     func logout() {
         clearCredentials()
+        User.current = nil
         
         // TODO: Clear current user by setting it to nil
 

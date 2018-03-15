@@ -17,8 +17,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var tweetCount: UILabel!
     @IBOutlet weak var followingCount: UILabel!
     @IBOutlet weak var followerCount: UILabel!
-    
-    
+    @IBOutlet weak var backgrounImage: UIImageView!
     
     var tweets: [Tweet] = []
     var user: User!
@@ -32,25 +31,33 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.rowHeight = 200
+//        tableView.rowHeight = UITableViewAutomaticDimension
+//        tableView.estimatedRowHeight = 100
         
-//        if let user = User.current {
-//            usernameLabel.text = user.name
-//            screennameLabel.text = user.screenName
-//        }
         
-//        APIManager.shared.getUserTimeline { (tweets, error) in
-//            if let tweets = tweets {
-//                self.tweets = tweets
-//                self.tableView.reloadData()
-//            } else if let error = error {
-//                print("Error getting home timeline: " + error.localizedDescription)
-//            }
-//        }
+        if let user = User.current {
+            usernameLabel.text = user.name
+            screennameLabel.text = user.screenName
+            let imageURL = URL(string: user.profileImageURL)
+            profileImage.af_setImage(withURL: imageURL! )
+            let bgimageURL = URL(string: user.backgroundImageURL)
+            backgrounImage.af_setImage(withURL: bgimageURL! )
+            tweetCount.text = "\(user.tweetCount)"
+            followerCount.text = "\(user.followersCount)"
+            followingCount.text = "\(user.friendsCount)"
+        }
         
-//        if let user = tweets[0].user as? User {
-//            usernameLabel.text = user.name
-//            screennameLabel.text = user.screenName
-//        }
+        APIManager.shared.getUserTimeline { (tweets, error) in
+            if let tweets = tweets {
+                self.tweets = tweets
+                self.tableView.reloadData()
+            } else if let error = error {
+                print("Error getting home timeline: " + error.localizedDescription)
+            }
+        }
+        
+
 
         
     }
@@ -60,8 +67,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TweetCell", for: indexPath) as! TweetCell
-        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "UserTweetCell", for: indexPath) as! UserTweetCell
         cell.tweet = tweets[indexPath.row]
         
         return cell

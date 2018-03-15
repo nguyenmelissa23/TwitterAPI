@@ -37,9 +37,6 @@ class DetailTweetViewController: UIViewController {
 
         }
     }
-
-    
-    
     
     
     @IBAction func didTapReply(_ sender: Any) {

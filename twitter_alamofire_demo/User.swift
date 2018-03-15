@@ -13,20 +13,26 @@ class User {
     var name: String
     var profileImageURL: String
     var backgroundImageURL: String
+    var userDict: [String: Any]
+    var screenName: String
+    var followersCount: Int
+    var friendsCount: Int
+    var tweetCount: Int
     
+    private static var _current: User?
     static var current: User?{
         get {
-            if self.current == nil {
+            if _current == nil {
                 let defaults = UserDefaults.standard
                 if let userData = defaults.data(forKey: "currentUserData") {
                     let dictionary = try! JSONSerialization.jsonObject(with: userData, options: []) as! [String: Any]
-                    self.current = User(dictionary: dictionary)
+                    _current = User(dictionary: dictionary)
                 }
             }
-            return self.current
+            return _current
         }
         set (user) {
-            self.current = user
+            _current = user
             let defaults = UserDefaults.standard
             if let user = user {
                 let data = try! JSONSerialization.data(withJSONObject: user.userDict, options: [])
@@ -37,8 +43,6 @@ class User {
         }
     }
     
-    var userDict: [String: Any]
-    var screenName: String
     
     init(dictionary: [String: Any]) {
         name = dictionary["name"] as! String
@@ -46,7 +50,8 @@ class User {
         self.userDict = dictionary
         profileImageURL = dictionary["profile_image_url_https"] as! String
         backgroundImageURL = dictionary["profile_background_image_url_https"] as! String
-        
-        
+        followersCount = dictionary["followers_count"] as! Int
+        friendsCount = dictionary["friends_count"] as! Int
+        tweetCount = dictionary["listed_count"] as! Int
     }
 }

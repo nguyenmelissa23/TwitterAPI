@@ -33,9 +33,9 @@ class ComposeViewController: UIViewController, UITextViewDelegate, UITextFieldDe
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         let characterLimit = 140
         let newText = NSString(string: textView.text!).replacingCharacters(in: range, with: text)
-        let characterLeft = "\(characterLimit - newText.characters.count)"
-        print("newText.characters.count", newText.characters.count)
-//        charCount.setTitleTextAttributes(characterLeft, for: .normal)
+//        let characterLeft = "\(characterLimit - newText.characters.count)"
+//        print("newText.characters.count", newText.characters.count)
+////        charCount.setTitleTextAttributes(characterLeft, for: .normal)
         return newText.characters.count < characterLimit
     }
 

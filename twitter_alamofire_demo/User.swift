@@ -52,6 +52,6 @@ class User {
         backgroundImageURL = dictionary["profile_background_image_url_https"] as! String
         followersCount = dictionary["followers_count"] as! Int
         friendsCount = dictionary["friends_count"] as! Int
-        tweetCount = dictionary["listed_count"] as! Int
+        tweetCount = dictionary["statuses_count"] as! Int
     }
 }

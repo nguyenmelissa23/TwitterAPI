@@ -20,6 +20,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var backgrounImage: UIImageView!
     
     var tweets: [Tweet] = []
+    
     var user: User!
     
     @IBOutlet weak var tableView: UITableView!
@@ -31,10 +32,13 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.rowHeight = 200
-//        tableView.rowHeight = UITableViewAutomaticDimension
-//        tableView.estimatedRowHeight = 100
+
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 100
         
+        let refreshController = UIRefreshControl()
+        refreshController.addTarget(self, action: #selector(refreshControlAction(_:)), for: UIControlEvents.valueChanged)
+        tableView.insertSubview(refreshController, at: 0)
         
         if let user = User.current {
             usernameLabel.text = user.name
@@ -61,6 +65,8 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
 
         
     }
+    
+   
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tweets.count
@@ -75,6 +81,22 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+    }
+    
+    
+    func refreshControlAction(_ refreshControl: UIRefreshControl){
+        refreshControl.beginRefreshing()
+        APIManager.shared.getUserTimeline { (tweets, error) in
+            if let tweets = tweets {
+                self.tweets = tweets
+                self.tableView.reloadData()
+                refreshControl.endRefreshing()
+            } else if let error = error {
+                print("Error getting home timeline: " + error.localizedDescription)
+                refreshControl.endRefreshing()
+            }
+        }
         
     }
     

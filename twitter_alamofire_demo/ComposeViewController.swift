@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import AlamofireImage
 protocol ComposeViewControllerDelegate {
     func did(post : Tweet)
     
@@ -16,28 +16,57 @@ protocol ComposeViewControllerDelegate {
 class ComposeViewController: UIViewController, UITextViewDelegate, UITextFieldDelegate{
     
 
-    @IBOutlet weak var textView: UITextField!
+
+    @IBOutlet weak var textView: UITextView!
     
+    @IBOutlet weak var usernameLabel: UILabel!
+    @IBOutlet weak var profileImage: UIImageView!
+    @IBOutlet weak var screennameLabel: UILabel!
     @IBOutlet weak var charCount: UIBarButtonItem!
     
     var delegate: ComposeViewControllerDelegate?
+    var currentText: String!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         textView.delegate = self
-        
+        if let user = User.current{
+            usernameLabel.text = user.name
+            screennameLabel.text = user.screenName
+            let image = URL(string: user.profileImageURL)
+            profileImage.af_setImage(withURL: image!)
+            charCount.title = "140"
+            textView.text = ""
+        }
         // Do any additional setup after loading the view.
     }
     
     // TO DO: display character count down
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        // TODO: Check the proposed new text character count
+        // Allow or disallow the new text
+        print("text:", textView.text)
         let characterLimit = 140
         let newText = NSString(string: textView.text!).replacingCharacters(in: range, with: text)
-//        let characterLeft = "\(characterLimit - newText.characters.count)"
-//        print("newText.characters.count", newText.characters.count)
-////        charCount.setTitleTextAttributes(characterLeft, for: .normal)
-        return newText.characters.count < characterLimit
+
+        self.charCount.title = "\(characterLimit - newText.count)"
+
+        print("newText.count", newText.count)
+        return newText.count < characterLimit
     }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        if (self.currentText) != nil{
+            
+        }
+        
+
+    }
+    
+//    func textViewDidBeginEditing(_ textView: UITextView) {
+//        <#code#>
+//    }
 
     
     @IBAction func didTapPost(_ sender: Any) {
@@ -49,6 +78,7 @@ class ComposeViewController: UIViewController, UITextViewDelegate, UITextFieldDe
                 print("Compose Tweet Success!")
             }
         }
+        dismiss(animated: true, completion: nil)
     }
     
     @IBAction func didTapCancel(_ sender: Any) {

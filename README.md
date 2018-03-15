@@ -37,6 +37,7 @@ Please list two areas of the assignment you'd like to **discuss further with you
 Here's a walkthrough of implemented user stories:
 
 <img src='https://imgur.com/ES40Kuy.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://imgur.com/ogkME7l.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
@@ -84,7 +85,7 @@ The following **required** stories are completed:
 
 The following **stretch** features are implemented:
 
-- [ ] Profile view includes that user's timeline. (2pts)
+- [] Profile view includes that user's timeline. (2pts)
 - [ ] User can tap the profile image in any tweet to see another user's profile. (1pt)
 - Contains the user header view: picture and tagline.
 - Contains a section with the users basic stats: # tweets, # following, # followers.
@@ -99,14 +100,11 @@ The following **additional** features are implemented:
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
-1.
-2.
-
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
 
-<img src='https://imgur.com/NliNVq3.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://imgur.com/yTFTyUf.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
